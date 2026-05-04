@@ -1,0 +1,20 @@
+{
+  "comment": "EDIT THIS FILE to change rules. Website updates on save (hot reload).",
+  "updated": "2026-02-04",
+  "minecraft": [
+    { "title": "No Griefing", "body": "No destroying, stealing or altering builds you don't own. Use /claim to protect yours.", "icon": "shield" },
+    { "title": "PvP is Opt-in", "body": "No PvP without both players agreeing. Duels happen in the arena.", "icon": "sword" },
+    { "title": "No Cheating", "body": "No x-ray, fly hacks, macros or client exploits. Optional client mods like Simple Voxy / Sodium are fine.", "icon": "shield" },
+    { "title": "No Spam or Ads", "body": "No begging, no advertising other servers in chat.", "icon": "book" },
+    { "title": "Report Issues", "body": "Use /report in-game or #support on Discord. Don't take matters into your own hands.", "icon": "book" },
+    { "title": "Respect Builds", "body": "Build at least 100 blocks from someone else's base without permission.", "icon": "castle" }
+  ],
+  "discord": [
+    { "title": "Keep it Friendly", "body": "No harassment, slurs or personal attacks. We have room for opinions, not for cruelty.", "icon": "shield" },
+    { "title": "English Primary", "body": "Keep #general-chat mostly in English so everyone can follow.", "icon": "book" },
+    { "title": "No NSFW", "body": "No inappropriate content, images or usernames anywhere.", "icon": "shield" },
+    { "title": "Stay on Topic", "body": "Use the right channel — screenshots in #clips, builds in #gallery, etc.", "icon": "book" },
+    { "title": "No Spam", "body": "No ping abuse, no wall of emojis, no repetitive posts.", "icon": "book" },
+    { "title": "Voice Etiquette", "body": "Push-to-talk in noisy rooms, no music bot hijacking without asking.", "icon": "compass" }
+  ]
+}

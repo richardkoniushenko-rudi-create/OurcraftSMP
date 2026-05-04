@@ -1,0 +1,17 @@
+{
+  "comment": "EDIT THIS FILE to change the navigation structure.",
+  "main": [
+    { "label": "Home",          "to": "/",             "icon": "home" },
+    { "label": "How to Play",   "to": "/how-to-play",  "icon": "play" },
+    { "label": "Starter Guide", "to": "/starter",      "icon": "book" },
+    { "label": "Mods",          "to": "/mods",         "icon": "boxes" },
+    { "label": "Gallery",       "to": "/gallery",      "icon": "image" },
+    { "label": "Minigames",     "to": "/minigames",    "icon": "gamepad" },
+    { "label": "Leaderboard",   "to": "/leaderboard",  "icon": "trophy" },
+    { "label": "Timeline",      "to": "/timeline",     "icon": "compass" },
+    { "label": "Rules",         "to": "/rules",        "icon": "gavel" },
+    { "label": "Live Status",   "to": "/live",         "icon": "server" },
+    { "label": "Support Us",    "to": "/support",      "icon": "heart",    "inactive": true }
+  ],
+  "primary_nav_labels": ["Home", "How to Play", "Mods", "Gallery", "Minigames", "Leaderboard", "Rules"]
+}

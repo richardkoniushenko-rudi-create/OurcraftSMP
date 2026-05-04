@@ -1,0 +1,42 @@
+{
+  "comment": "EDIT THIS FILE to change the starter guide content.",
+  "steps": [
+    {
+      "title": "Get Food Fast",
+      "body": "Punch 1 tree → crafting table → wooden sword. Hunt cows or sheep on day one; aim for 10 raw meat before night.",
+      "icon": "sword"
+    },
+    {
+      "title": "Find a Safe Base",
+      "body": "A 3×3 hole with a door works for night 1. Upgrade to a proper base once you've got stone tools.",
+      "icon": "castle"
+    },
+    {
+      "title": "Claim Your Land",
+      "body": "Use /claim to protect a chunk. Use /trust <player> to share a claim with friends.",
+      "icon": "shield"
+    },
+    {
+      "title": "Find a Waystone",
+      "body": "Waystones let you fast-travel. There are 12 public ones near spawn — explore to find them.",
+      "icon": "compass"
+    },
+    {
+      "title": "Join Events",
+      "body": "Weekly events are posted in #events on Discord. Build battles, mob hunts, treasure hunts.",
+      "icon": "book"
+    },
+    {
+      "title": "Avoid Lag",
+      "body": "Install Sodium (it's allowed). Lower render distance if you're on a laptop. Ask in #support for help.",
+      "icon": "gear"
+    }
+  ],
+  "faq": [
+    { "q": "Do I need a modpack?", "a": "No! Ourcraft is mostly server-side. You only need Minecraft Java 1.21.11 + Fabric. Optional client mods (Sodium, Simple Voxlib) are listed on the Mods page." },
+    { "q": "Can I use shaders?", "a": "Yes — pair Iris + Sodium. Any shader pack works." },
+    { "q": "How do I report someone?", "a": "Use /report in-game or #support on Discord. Include screenshots if possible." },
+    { "q": "Can I stream or YouTube from the server?", "a": "Yes! Tag us and we might feature your video on the Gallery." },
+    { "q": "Is there a whitelist?", "a": "No — the server is open. Just connect with your Java account." }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "comment": "EDIT THIS FILE to change Ourcraft's world history / season timeline entries.",
+  "seasons": [
+    {
+      "id": "s1",
+      "name": "Season 1 — The Seed",
+      "date": "2024-03",
+      "summary": "Ourcraft is founded with a handful of friends and a vanilla-friendly modpack.",
+      "highlights": ["Spawn built by hand", "First diamond mined by Steve", "Nether hub designed"]
+    },
+    {
+      "id": "s2",
+      "name": "Season 2 — Structures",
+      "date": "2024-08",
+      "summary": "Custom structures and YUNG's Better dungeons added. Community grew to 50+ members.",
+      "highlights": ["Mega-base completed", "First community event (Build Battle)", "Mods Panel launched"]
+    },
+    {
+      "id": "s3",
+      "name": "Season 3 — Terrain Reforged",
+      "date": "2025-02",
+      "summary": "Terralith + Tectonic overhauled the world. Fabric 1.21 upgrade.",
+      "highlights": ["New map generated", "Waystones public network", "Create mod added"]
+    },
+    {
+      "id": "current",
+      "name": "Season 4 — Current",
+      "date": "2025-10",
+      "summary": "Live now. Version 1.21.11 with the full Ourcraft modpack and custom datapacks.",
+      "highlights": ["Discord chat bridge live", "Easter egg hunt launched", "This website!"]
+    }
+  ]
+}
