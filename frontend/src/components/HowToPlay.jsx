@@ -48,7 +48,7 @@ export default function HowToPlay({ info }) {
                 </span>
               </div>
               <div className="text-white/60 text-sm mt-1">
-                Minecraft Java {info?.version || "1.21.1"} · Fabric loader
+                Minecraft Java {info?.version || "1.21.1"} · {info?.modpack || "Mounts of Mayhem"} · Fabric
               </div>
             </div>
             <a

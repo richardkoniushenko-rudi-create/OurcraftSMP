@@ -47,6 +47,7 @@ class ServerInfo(BaseModel):
     tagline: str
     ip: str
     version: str
+    modpack: str
     max_players: int
     management_panel_url: str
     discord_invite_url: str
@@ -75,12 +76,18 @@ class ChatMessage(BaseModel):
     channel: str
 
 
+class ChannelListItem(BaseModel):
+    id: str
+    name: str
+
+
 class DiscordInfo(BaseModel):
     guild_name: Optional[str]
     guild_icon: Optional[str]
     member_count: int
     online_count: int
     invite_url: str
+    active_channel_name: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -98,7 +105,8 @@ async def server_info():
         tagline="Modded Survival with Custom Terrain & Structures",
         ip=os.environ.get("MINECRAFT_SERVER_IP", "play.ourcraft.online"),
         version=os.environ.get("MINECRAFT_VERSION", "1.21.1"),
-        max_players=int(os.environ.get("MINECRAFT_MAX_PLAYERS", "100")),
+        modpack=os.environ.get("MINECRAFT_MODPACK", "Mounts of Mayhem"),
+        max_players=int(os.environ.get("MINECRAFT_MAX_PLAYERS", "200")),
         management_panel_url=os.environ.get(
             "MANAGEMENT_PANEL_URL", "https://management_panel.mcboost.online/"
         ),
@@ -116,7 +124,7 @@ async def server_status():
     return ServerStatus(
         online=True,
         players_online=int(s.get("players_online", 0) or 0),
-        max_players=int(os.environ.get("MINECRAFT_MAX_PLAYERS", "100")),
+        max_players=int(os.environ.get("MINECRAFT_MAX_PLAYERS", "200")),
         discord_online=int(s.get("online_count", 0) or 0),
         discord_members=int(s.get("member_count", 0) or 0),
         bot_ready=bool(s.get("ready", False)),
@@ -134,7 +142,14 @@ async def discord_info():
         member_count=int(s.get("member_count", 0) or 0),
         online_count=int(s.get("online_count", 0) or 0),
         invite_url=os.environ.get("DISCORD_INVITE_URL", "https://discord.gg/pFj6mZubVu"),
+        active_channel_name=s.get("active_channel_name"),
     )
+
+
+@api_router.get("/discord/channels", response_model=List[ChannelListItem])
+async def discord_channels():
+    from discord_bot import state as bot_state  # noqa: WPS433
+    return [ChannelListItem(**c) for c in bot_state.channels]
 
 
 @api_router.get("/discord/chat", response_model=List[ChatMessage])

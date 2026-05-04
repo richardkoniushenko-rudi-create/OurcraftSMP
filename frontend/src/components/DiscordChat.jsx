@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Hash, MessageSquare, Users } from "lucide-react";
-import { fetchDiscordChat } from "../lib/api";
+import { fetchDiscordChat, fetchDiscordInfo } from "../lib/api";
 
 function relTime(iso) {
   if (!iso) return "";
@@ -42,14 +42,29 @@ const FALLBACK = [
 export default function DiscordChat({ status, discordUrl }) {
   const [messages, setMessages] = useState([]);
   const [hasData, setHasData] = useState(false);
+  const [channelName, setChannelName] = useState("minecraft-chat");
   const scrollRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
     const load = async () => {
       try {
-        const data = await fetchDiscordChat(20);
+        const [data, info] = await Promise.all([
+          fetchDiscordChat(20),
+          fetchDiscordInfo().catch(() => null),
+        ]);
         if (!alive) return;
+        if (info?.active_channel_name) {
+          // Strip unicode brackets / emojis for cleaner display
+          const clean = info.active_channel_name
+            .replace(/[〔〕【】「」『』]/g, "")
+            .replace(
+              /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}]/gu,
+              "",
+            )
+            .trim();
+          setChannelName(clean || "minecraft-chat");
+        }
         if (Array.isArray(data) && data.length) {
           setMessages(data);
           setHasData(true);
@@ -128,7 +143,7 @@ export default function DiscordChat({ status, discordUrl }) {
               <div className="flex items-center gap-2">
                 <Hash size={14} className="text-[#22c55e]" />
                 <span className="font-pixel text-lg text-white">
-                  minecraft-chat
+                  {channelName}
                 </span>
               </div>
               <span

@@ -141,6 +141,21 @@ export default function Hero({ info, status, discordUrl }) {
                 testId="stat-version"
               />
             </motion.div>
+
+            {info?.modpack && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-[#22c55e]/10 border border-[#22c55e]/30"
+                data-testid="modpack-badge"
+              >
+                <span className="w-1.5 h-1.5 bg-[#22c55e]" />
+                <span className="font-accent text-[10px] uppercase tracking-[0.25em] text-[#22c55e]">
+                  Modpack · {info.modpack}
+                </span>
+              </motion.div>
+            )}
           </div>
 
           {/* Logo */}

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Diamond sword pointing up-right, tip at (14,1) -->
+  <rect x="13" y="0" width="2" height="2" fill="#67e8f9"/>
+  <rect x="12" y="1" width="2" height="2" fill="#06b6d4"/>
+  <rect x="11" y="2" width="2" height="2" fill="#67e8f9"/>
+  <rect x="10" y="3" width="2" height="2" fill="#06b6d4"/>
+  <rect x="9"  y="4" width="2" height="2" fill="#67e8f9"/>
+  <rect x="8"  y="5" width="2" height="2" fill="#06b6d4"/>
+  <rect x="7"  y="6" width="2" height="2" fill="#67e8f9"/>
+  <rect x="6"  y="7" width="2" height="2" fill="#06b6d4"/>
+  <!-- Guard (dark wood) -->
+  <rect x="4"  y="8" width="4" height="1" fill="#422006"/>
+  <rect x="3"  y="9" width="4" height="1" fill="#422006"/>
+  <!-- Handle (brown) -->
+  <rect x="2"  y="10" width="2" height="2" fill="#92400e"/>
+  <rect x="1"  y="11" width="2" height="2" fill="#78350f"/>
+  <rect x="0"  y="12" width="2" height="2" fill="#5c2e0b"/>
+  <!-- Shine on blade -->
+  <rect x="12" y="2" width="1" height="1" fill="#a5f3fc"/>
+  <rect x="10" y="4" width="1" height="1" fill="#a5f3fc"/>
+</svg>

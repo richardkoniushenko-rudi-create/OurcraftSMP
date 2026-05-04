@@ -40,6 +40,7 @@ class BotState:
         self.channels: list[dict] = []
         self.chat_messages: deque = deque(maxlen=50)
         self.active_channel_id: Optional[int] = None
+        self.active_channel_name: Optional[str] = None
 
     def to_public(self) -> dict:
         return {
@@ -52,6 +53,7 @@ class BotState:
             "player_names": self.player_names[:20],
             "bot_status_text": self.bot_status_text,
             "last_sync": self.last_sync,
+            "active_channel_name": self.active_channel_name,
         }
 
 
@@ -117,6 +119,18 @@ async def _sync_guild() -> None:
     if preferred_id:
         active_channel = guild.get_channel(preferred_id)
 
+    # If not explicitly configured, try to find a minecraft/chat-like channel
+    if active_channel is None:
+        keywords = ["minecraft", "mc-chat", "mc_chat", "ingame", "in-game", "game-chat", "chat", "smp"]
+        for kw in keywords:
+            for ch in guild.text_channels:
+                name_l = ch.name.lower()
+                if kw in name_l:
+                    active_channel = ch
+                    break
+            if active_channel is not None:
+                break
+
     channels_info = []
     for ch in guild.text_channels:
         channels_info.append({"id": str(ch.id), "name": ch.name})
@@ -126,6 +140,7 @@ async def _sync_guild() -> None:
 
     if active_channel is not None:
         state.active_channel_id = active_channel.id
+        state.active_channel_name = active_channel.name
         # Prime the cache with recent messages
         try:
             recent = []
@@ -147,11 +162,20 @@ def _format_message(msg: discord.Message) -> dict:
         avatar = str(msg.author.display_avatar.url) if msg.author.display_avatar else None
     except Exception:  # noqa: BLE001
         avatar = None
+    content = msg.clean_content or ""
+    if not content:
+        if msg.attachments:
+            content = f"[sent {len(msg.attachments)} attachment(s)]"
+        elif msg.embeds:
+            e = msg.embeds[0]
+            content = e.title or e.description or "[embed]"
+        elif msg.stickers:
+            content = f"[sticker: {msg.stickers[0].name}]"
     return {
         "id": str(msg.id),
         "author": author_name,
         "avatar": avatar,
-        "content": msg.clean_content or "",
+        "content": content,
         "bot": bool(msg.author.bot),
         "timestamp": msg.created_at.astimezone(timezone.utc).isoformat(),
         "channel": msg.channel.name if hasattr(msg.channel, "name") else "",

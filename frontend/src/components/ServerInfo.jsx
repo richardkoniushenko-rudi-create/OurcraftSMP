@@ -6,6 +6,7 @@ export default function ServerInfo({ info, status }) {
     { k: "Server Name", v: info?.name || "Ourcraft SMP" },
     { k: "Server IP", v: info?.ip || "play.ourcraft.online" },
     { k: "Version", v: `Minecraft Java ${info?.version || "1.21.1"}` },
+    { k: "Modpack", v: info?.modpack || "Mounts of Mayhem" },
     { k: "Modloader", v: "Fabric" },
     { k: "Gamemode", v: info?.gamemode || "Survival (SMP)" },
     { k: "Max Players", v: info?.max_players ?? 100 },
