@@ -9,8 +9,10 @@ import {
   Package,
   Github,
   ArrowUpRight,
+  Gamepad2,
 } from "lucide-react";
 import { LOGO_URL } from "../constants";
+import HiddenEgg from "./HiddenEgg";
 
 /**
  * Simple M-mark for Modrinth (their brand mark redrawn as a pixel glyph)
@@ -38,6 +40,7 @@ export default function Footer({ info }) {
     { label: "How to Play", href: "/how-to-play", icon: PlayCircle },
     { label: "Mods", href: "/mods", icon: Boxes },
     { label: "Gallery", href: "/gallery", icon: ImageIcon },
+    { label: "Minigames", href: "/minigames", icon: Gamepad2 },
     { label: "Server Info", href: "/server-info", icon: Server },
   ];
 
@@ -135,9 +138,13 @@ export default function Footer({ info }) {
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div className="font-accent text-[10px] uppercase tracking-[0.2em] text-white/40">
-            © {new Date().getFullYear()} Ourcraft SMP — not affiliated with
-            Mojang.
+          <div className="font-accent text-[10px] uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+            <span>
+              © {new Date().getFullYear()} Ourcraft SMP — not affiliated with
+              Mojang.
+            </span>
+            {/* Hidden footer emerald egg */}
+            <HiddenEgg eggId="footer_emerald" emoji="🟢" size={14} />
           </div>
           <div
             className="font-accent text-[10px] uppercase tracking-[0.2em] text-white/40"

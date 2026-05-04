@@ -16,12 +16,12 @@
     ]
   },
   "categories": [
-    { "key": "terrain",      "label": "Terrain",      "color": "#22c55e" },
-    { "key": "structures",   "label": "Structures",   "color": "#8b5a2b" },
-    { "key": "tech",         "label": "Technology",   "color": "#06b6d4" },
-    { "key": "optimisation", "label": "Optimisation", "color": "#f59e0b" },
-    { "key": "social",       "label": "Social",       "color": "#ec4899" },
-    { "key": "utility",      "label": "Utility",      "color": "#a78bfa" }
+    { "key": "terrain",      "label": "Terrain",      "color": "#22c55e", "icon": "map" },
+    { "key": "structures",   "label": "Structures",   "color": "#8b5a2b", "icon": "castle" },
+    { "key": "tech",         "label": "Technology",   "color": "#06b6d4", "icon": "cpu" },
+    { "key": "optimisation", "label": "Optimisation", "color": "#f59e0b", "icon": "rocket" },
+    { "key": "social",       "label": "Social",       "color": "#ec4899", "icon": "chat" },
+    { "key": "utility",      "label": "Utility",      "color": "#a78bfa", "icon": "wrench" }
   ],
   "mods": {
     "terrain": [

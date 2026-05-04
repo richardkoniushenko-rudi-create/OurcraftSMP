@@ -224,8 +224,8 @@ export default function DiscordChat({ status, discordUrl }) {
 const PRESETS = [
   "What's cool about this SMP?",
   "How do I begin?",
-  "Is it worth joining?",
-  "What mods are in the pack?",
+  "Hey everyone!",
+  "Is anyone online?",
 ];
 
 function ChatSendBox({ onSent }) {
@@ -263,7 +263,6 @@ function ChatSendBox({ onSent }) {
       setBusy(false);
     }
   };
-
   return (
     <div
       data-testid="chat-send-box"
@@ -333,8 +332,8 @@ function ChatSendBox({ onSent }) {
         </button>
       </form>
       <div className="mt-2 text-[10px] text-white/40 leading-snug">
-        Posts to Discord as <span className="text-[#22c55e]">[Web · {nickname || "…"}]</span>.
-        Only SMP-related questions are allowed; profanity is blocked.
+        Posts to Discord as <span className="text-[#22c55e]">[Web] {nickname || "…"}</span>.
+        Chat freely — keep it friendly; profanity is blocked.
       </div>
     </div>
   );

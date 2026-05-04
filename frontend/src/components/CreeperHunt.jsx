@@ -59,9 +59,13 @@ export default function CreeperHunt() {
       setActive(next);
     };
     pop();
-    const id = setInterval(pop, 850);
+    // Speed ramps from 1200ms at start to 380ms at end of game
+    const progress = 1 - timeLeft / GAME_DURATION;
+    const interval = Math.round(1200 - progress * 820);
+    const id = setInterval(pop, interval);
     return () => clearInterval(id);
-  }, [running, active]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [running, active, timeLeft]);
 
   useEffect(() => {
     if (!running && score > 0 && score >= WIN_SCORE && !won) {

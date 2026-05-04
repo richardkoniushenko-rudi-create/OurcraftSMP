@@ -17,9 +17,9 @@ from discord_bot import (  # noqa: E402
     stop_bot,
     get_public_state,
     get_recent_messages,
-    send_web_message,
 )
 from chat_filter import validate_message, ALLOWED_TOPICS_HINT  # noqa: E402
+from eggs import EGGS, claim_egg, send_chat_webhook, is_valid_mc_username  # noqa: E402
 
 # MongoDB
 mongo_url = os.environ["MONGO_URL"]
@@ -88,12 +88,33 @@ class ChannelListItem(BaseModel):
 class SendMessageIn(BaseModel):
     content: str
     nickname: Optional[str] = "Anon"
+    avatar_url: Optional[str] = None
 
 
 class SendMessageOut(BaseModel):
     sent: bool
     reason: Optional[str] = None
     hint: Optional[str] = None
+
+
+class ClaimEggIn(BaseModel):
+    egg_id: str
+    mc_username: str
+
+
+class ClaimEggOut(BaseModel):
+    ok: bool
+    reward: Optional[str] = None
+    reason: Optional[str] = None
+    already_claimed: Optional[bool] = None
+
+
+class EggInfo(BaseModel):
+    id: str
+    name: str
+    reward: str
+    emoji: str
+    hint: str
 
 
 class DiscordInfo(BaseModel):
@@ -199,15 +220,45 @@ async def discord_send(payload: SendMessageIn, request: Request):
     if not ok:
         return SendMessageOut(sent=False, reason=reason, hint=ALLOWED_TOPICS_HINT)
 
-    sent = await send_web_message(payload.content.strip(), payload.nickname or "Anon")
+    sent = await send_chat_webhook(
+        payload.content.strip(),
+        payload.nickname or "Anon",
+        payload.avatar_url,
+    )
     if not sent:
         return SendMessageOut(
             sent=False,
-            reason="Discord bot is not ready — try again in a moment.",
+            reason="Chat webhook isn't configured — try again in a moment.",
             hint=ALLOWED_TOPICS_HINT,
         )
     _last_sent[client_ip] = now
     return SendMessageOut(sent=True, hint=ALLOWED_TOPICS_HINT)
+
+
+@api_router.get("/easter/eggs", response_model=List[EggInfo])
+async def list_eggs():
+    return [
+        EggInfo(id=k, name=v["name"], reward=v["reward"], emoji=v["emoji"], hint=v["hint"])
+        for k, v in EGGS.items()
+    ]
+
+
+@api_router.post("/easter/claim", response_model=ClaimEggOut)
+async def claim_easter_egg(payload: ClaimEggIn, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    result = await claim_egg(db, payload.egg_id, payload.mc_username, client_ip)
+    return ClaimEggOut(**result)
+
+
+@api_router.get("/easter/check/{egg_id}")
+async def check_egg_claimed(egg_id: str, request: Request):
+    """Has this IP already claimed this egg? Frontend uses this to disable
+    the claim button if the user already unlocked it."""
+    client_ip = request.client.host if request.client else "unknown"
+    found = await db.egg_claims.find_one(
+        {"egg_id": egg_id, "ip": client_ip}, {"_id": 0}
+    )
+    return {"claimed": bool(found)}
 
 
 app.include_router(api_router)

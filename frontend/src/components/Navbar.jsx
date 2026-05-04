@@ -9,6 +9,7 @@ const NAV = [
   { label: "How to Play", to: "/how-to-play" },
   { label: "Mods", to: "/mods" },
   { label: "Gallery", to: "/gallery" },
+  { label: "Minigames", to: "/minigames" },
   { label: "Server Info", to: "/server-info" },
 ];
 

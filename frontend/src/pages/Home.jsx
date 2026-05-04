@@ -6,7 +6,7 @@ import Mods from "@/components/Mods";
 import Gallery from "@/components/Gallery";
 import DiscordChat from "@/components/DiscordChat";
 import ServerInfo from "@/components/ServerInfo";
-import CreeperHunt from "@/components/CreeperHunt";
+import HiddenEgg from "@/components/HiddenEgg";
 
 export default function Home({ info, status }) {
   const discordUrl =
@@ -14,15 +14,59 @@ export default function Home({ info, status }) {
 
   return (
     <div data-testid="home-page">
-      <Hero info={info} status={status} discordUrl={discordUrl} />
-      <LiveStatus info={info} status={status} />
+      <div style={{ position: "relative" }}>
+        <Hero info={info} status={status} discordUrl={discordUrl} />
+        {/* Hidden creeper egg — tucked into hero */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: 120,
+            right: 40,
+            zIndex: 2,
+          }}
+        >
+          <HiddenEgg eggId="hero_creeper" emoji="🟩" size={18} />
+        </div>
+      </div>
+
+      <div style={{ position: "relative" }}>
+        <LiveStatus info={info} status={status} />
+        {/* Hidden diamond — small and subtle */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: 28,
+            left: "48%",
+            zIndex: 2,
+          }}
+        >
+          <HiddenEgg eggId="live_diamond" emoji="💎" size={16} />
+        </div>
+      </div>
+
       <Features />
       <HowToPlay info={info} />
       <Mods />
-      <Gallery />
+
+      <div style={{ position: "relative" }}>
+        <Gallery />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: 60,
+            right: 80,
+            zIndex: 2,
+          }}
+        >
+          <HiddenEgg eggId="gallery_ruby" emoji="💍" size={16} />
+        </div>
+      </div>
+
       <DiscordChat status={status} discordUrl={discordUrl} />
       <ServerInfo info={info} status={status} />
-      <CreeperHunt />
     </div>
   );
 }

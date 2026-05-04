@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { MOD_CATEGORIES, MODS_BY_CAT, MODS_BG } from "../constants";
+import CategoryIcon from "./CategoryIcon";
 
 export default function Mods() {
   const totalMods = Object.values(MODS_BY_CAT).reduce(
@@ -39,13 +40,18 @@ export default function Mods() {
                   key={c.key}
                   to={`/mods?cat=${c.key}`}
                   data-testid={`home-cat-${c.key}`}
-                  className="block-card p-4 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-block-lg transition-transform duration-150"
+                  className="block-card p-4 group"
                 >
                   <div
-                    className="w-3 h-3 mb-3"
-                    style={{ background: c.color }}
+                    className="w-10 h-10 flex items-center justify-center mb-3 transition-transform group-hover:scale-110"
+                    style={{
+                      background: `${c.color}18`,
+                      color: c.color,
+                    }}
                     aria-hidden
-                  />
+                  >
+                    <CategoryIcon name={c.icon} size={20} />
+                  </div>
                   <div className="font-pixel text-2xl text-white leading-none">
                     {c.label}
                   </div>
