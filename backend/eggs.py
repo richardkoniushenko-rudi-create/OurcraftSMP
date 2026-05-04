@@ -123,14 +123,16 @@ async def claim_egg(
                 "username": "Ourcraft Easter Egg",
                 "embeds": [
                     {
-                        "title": f"{egg['emoji']} {egg['name']} claimed!",
+                        "title": f"{egg['emoji']} New Easter Egg Claimed!",
                         "description": (
-                            f"**Player:** `{mc_username.strip()}`\n"
-                            f"**Reward:** {egg['reward']}\n"
-                            f"**Egg:** `{egg_id}`\n"
-                            f"**IP:** `{ip}`"
+                            f"**Minecraft username:** `{mc_username.strip()}`\n"
+                            f"**Egg:** {egg['name']} (`{egg_id}`)\n"
+                            f"**Reward to grant:** {egg['reward']}\n"
+                            f"**IP:** `{ip}`\n\n"
+                            f"➡️ **Action required:** Verify the username matches the player on the server, then grant the listed reward in-game (or via your admin tools)."
                         ),
                         "color": 0x22C55E,
+                        "footer": {"text": "Each egg can only be claimed once per IP / username."},
                         "timestamp": claim_doc["claimed_at"],
                     }
                 ],

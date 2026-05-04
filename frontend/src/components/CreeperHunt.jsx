@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, RotateCcw } from "lucide-react";
+import axios from "axios";
 import Confetti from "./Confetti";
 import { toast } from "sonner";
+import { API } from "../lib/api";
 
 /**
  * CreeperHunt — a small "whack-a-mole" style minigame embedded at the bottom
@@ -12,8 +14,8 @@ import { toast } from "sonner";
 const COLS = 4;
 const ROWS = 3;
 const CELLS = COLS * ROWS;
-const GAME_DURATION = 30;
-const WIN_SCORE = 10;
+const GAME_DURATION = 45;
+const WIN_SCORE = 12;
 
 const STORAGE_BEST = "ourcraft.game.best";
 
@@ -59,9 +61,11 @@ export default function CreeperHunt() {
       setActive(next);
     };
     pop();
-    // Speed ramps from 1200ms at start to 380ms at end of game
+    // Speed ramps from 1600ms (very slow) at start to 230ms (frantic) at end
     const progress = 1 - timeLeft / GAME_DURATION;
-    const interval = Math.round(1200 - progress * 820);
+    // ease-in cubic so the speed-up feels dramatic in the last 10 seconds
+    const eased = progress * progress * progress;
+    const interval = Math.max(230, Math.round(1600 - eased * 1370));
     const id = setInterval(pop, interval);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,7 +86,41 @@ export default function CreeperHunt() {
         /* ignore */
       }
     }
-  }, [running, score, won, best]);
+    if (!running && score > 0 && timeLeft <= 0 && !won) {
+      // Game finished but didn't hit win score — still offer to submit
+      try {
+        const newBest = Math.max(best, score);
+        window.localStorage.setItem(STORAGE_BEST, String(newBest));
+        setBest(newBest);
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [running, score, won, best, timeLeft]);
+
+  const submitScore = async () => {
+    const username = window.prompt(
+      "Enter your Minecraft Java username to submit your score to the public leaderboard:",
+    );
+    if (!username) return;
+    try {
+      const r = await axios.post(`${API}/leaderboard/creeper`, {
+        mc_username: username.trim(),
+        score,
+      });
+      if (r.data?.ok) {
+        toast.success(
+          r.data.new_best
+            ? `New personal best on the leaderboard!`
+            : `Score recorded — your previous best is higher.`,
+        );
+      } else {
+        toast.error(r.data?.reason || "Could not submit score.");
+      }
+    } catch {
+      toast.error("Could not reach the server.");
+    }
+  };
 
   const start = () => {
     setWon(false);
@@ -159,14 +197,23 @@ export default function CreeperHunt() {
               <Stat label="Target" value={WIN_SCORE} color="#f59e0b" />
             </div>
 
-            <div className="mt-6 flex gap-3">
+            <div className="mt-6 flex gap-3 flex-wrap">
               {!running && (
                 <button
                   data-testid="minigame-start"
                   onClick={start}
                   className="block-btn"
                 >
-                  <Sparkles size={14} /> {won ? "Play again" : "Start"}
+                  <Sparkles size={14} /> {won || score > 0 ? "Play again" : "Start"}
+                </button>
+              )}
+              {!running && score > 0 && (
+                <button
+                  data-testid="minigame-submit"
+                  onClick={submitScore}
+                  className="block-btn-ghost"
+                >
+                  Submit to Leaderboard
                 </button>
               )}
               <button

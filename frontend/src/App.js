@@ -16,6 +16,12 @@ import ModsPage from "@/pages/ModsPage";
 import GalleryPage from "@/pages/GalleryPage";
 import ServerInfoPage from "@/pages/ServerInfoPage";
 import MinigamesPage from "@/pages/MinigamesPage";
+import RulesPage from "@/pages/RulesPage";
+import LeaderboardPage from "@/pages/LeaderboardPage";
+import LiveStatusPage from "@/pages/LiveStatusPage";
+import StarterGuidePage from "@/pages/StarterGuidePage";
+import TimelinePage from "@/pages/TimelinePage";
+import SupportUsPage from "@/pages/SupportUsPage";
 
 function AnimatedRoutes({ info, status }) {
   const location = useLocation();
@@ -34,6 +40,15 @@ function AnimatedRoutes({ info, status }) {
           <Route path="/mods" element={<ModsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/minigames" element={<MinigamesPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/rules" element={<RulesPage info={info} />} />
+          <Route
+            path="/live"
+            element={<LiveStatusPage info={info} status={status} />}
+          />
+          <Route path="/starter" element={<StarterGuidePage />} />
+          <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/support" element={<SupportUsPage />} />
           <Route
             path="/server-info"
             element={<ServerInfoPage info={info} status={status} />}

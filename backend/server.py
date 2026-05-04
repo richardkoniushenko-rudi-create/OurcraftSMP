@@ -20,6 +20,11 @@ from discord_bot import (  # noqa: E402
 )
 from chat_filter import validate_message, ALLOWED_TOPICS_HINT  # noqa: E402
 from eggs import EGGS, claim_egg, send_chat_webhook, is_valid_mc_username  # noqa: E402
+from leaderboard import (  # noqa: E402
+    submit_creeper_score,
+    top_creeper_scores,
+    top_egg_collectors,
+)
 
 # MongoDB
 mongo_url = os.environ["MONGO_URL"]
@@ -115,6 +120,29 @@ class EggInfo(BaseModel):
     reward: str
     emoji: str
     hint: str
+
+
+class CreeperScoreIn(BaseModel):
+    mc_username: str
+    score: int
+
+
+class CreeperScoreOut(BaseModel):
+    ok: bool
+    reason: Optional[str] = None
+    new_best: Optional[bool] = None
+
+
+class CreeperLeader(BaseModel):
+    mc_username: str
+    score: int
+    updated_at: str
+
+
+class EggLeader(BaseModel):
+    mc_username: str
+    count: int
+    last_claimed: str
 
 
 class DiscordInfo(BaseModel):
@@ -252,13 +280,41 @@ async def claim_easter_egg(payload: ClaimEggIn, request: Request):
 
 @api_router.get("/easter/check/{egg_id}")
 async def check_egg_claimed(egg_id: str, request: Request):
-    """Has this IP already claimed this egg? Frontend uses this to disable
-    the claim button if the user already unlocked it."""
+    """Has this IP already claimed this egg?"""
     client_ip = request.client.host if request.client else "unknown"
     found = await db.egg_claims.find_one(
         {"egg_id": egg_id, "ip": client_ip}, {"_id": 0}
     )
     return {"claimed": bool(found)}
+
+
+# ---------------------------------------------------------------------------
+# Leaderboards
+# ---------------------------------------------------------------------------
+@api_router.post("/leaderboard/creeper", response_model=CreeperScoreOut)
+async def post_creeper_score(payload: CreeperScoreIn, request: Request):
+    client_ip = request.client.host if request.client else "unknown"
+    res = await submit_creeper_score(db, payload.mc_username, payload.score, client_ip)
+    return CreeperScoreOut(**res)
+
+
+@api_router.get("/leaderboard/creeper", response_model=List[CreeperLeader])
+async def get_creeper_leaderboard():
+    rows = await top_creeper_scores(db, limit=25)
+    return [CreeperLeader(**r) for r in rows]
+
+
+@api_router.get("/leaderboard/eggs", response_model=List[EggLeader])
+async def get_egg_leaderboard():
+    rows = await top_egg_collectors(db, limit=25)
+    return [
+        EggLeader(
+            mc_username=r["mc_username"],
+            count=r["count"],
+            last_claimed=r.get("last_claimed", ""),
+        )
+        for r in rows
+    ]
 
 
 app.include_router(api_router)

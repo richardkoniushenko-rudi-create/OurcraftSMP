@@ -3,15 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { LOGO_URL } from "../constants";
-
-const NAV = [
-  { label: "Home", to: "/" },
-  { label: "How to Play", to: "/how-to-play" },
-  { label: "Mods", to: "/mods" },
-  { label: "Gallery", to: "/gallery" },
-  { label: "Minigames", to: "/minigames" },
-  { label: "Server Info", to: "/server-info" },
-];
+import navData from "../data/nav.json";
+import ThemedIcon from "./ThemedIcon";
 
 export default function Navbar({ managementUrl, discordUrl }) {
   const [scrolled, setScrolled] = useState(false);
@@ -20,8 +13,12 @@ export default function Navbar({ managementUrl, discordUrl }) {
   const logoClicks = useRef(0);
   const logoTimer = useRef(null);
 
+  // Choose primary nav (first 6 main entries that aren't inactive)
+  const NAV = navData.main
+    .filter((n) => navData.primary_nav_labels.includes(n.label))
+    .filter((n) => !n.inactive);
+
   const onLogoClick = (e) => {
-    // Only trigger the easter egg if user is already on "/"
     if (pathname !== "/") return;
     logoClicks.current += 1;
     if (logoTimer.current) clearTimeout(logoTimer.current);
@@ -31,9 +28,7 @@ export default function Navbar({ managementUrl, discordUrl }) {
     if (logoClicks.current === 5) {
       logoClicks.current = 0;
       e.preventDefault();
-      toast("⛏ Secret unlocked!", {
-        description: "Enjoy the minigame — break the blocks!",
-      });
+      toast("⛏ Secret unlocked!", { description: "Enjoy the minigame!" });
       window.__openOurcraftGame?.();
     }
   };
@@ -58,37 +53,63 @@ export default function Navbar({ managementUrl, discordUrl }) {
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="container-oc flex items-center justify-between h-16">
-        <Link to="/" data-testid="logo-link" onClick={onLogoClick} className="flex items-center gap-3">
-          <img
-            src={LOGO_URL}
-            alt="Ourcraft"
-            className="h-10 w-10 object-contain image-render-pixel"
-            style={{ imageRendering: "pixelated" }}
-          />
+      <div className="container-oc flex items-center justify-between h-20">
+        <Link
+          to="/"
+          data-testid="logo-link"
+          onClick={onLogoClick}
+          className="flex items-center gap-3 group"
+        >
+          <div className="relative">
+            <img
+              src={LOGO_URL}
+              alt="Ourcraft"
+              className="h-14 w-14 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]"
+              style={{ imageRendering: "pixelated" }}
+            />
+            <div className="absolute inset-0 bg-[#22c55e]/20 blur-xl -z-10 opacity-60 group-hover:opacity-100 animate-pulse-soft" />
+          </div>
           <div className="flex flex-col leading-none">
-            <span className="font-pixel text-2xl text-white">OURCRAFT</span>
-            <span className="font-accent text-[9px] tracking-[0.3em] text-[#22c55e]">
-              SMP
+            <span className="font-pixel text-3xl text-white tracking-wide">
+              OURCRAFT
+            </span>
+            <span className="font-accent text-[10px] tracking-[0.3em] text-[#22c55e] mt-0.5">
+              SMP · 1.21.11
             </span>
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8">
-          {NAV.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              data-testid={`nav-${n.label.toLowerCase().replace(/ /g, "-")}`}
-              className={`font-accent text-xs uppercase tracking-[0.2em] transition-colors ${
-                pathname === n.to
-                  ? "text-[#22c55e]"
-                  : "text-white/70 hover:text-white"
-              }`}
-            >
-              {n.label}
-            </Link>
-          ))}
+        <nav className="hidden lg:flex items-center gap-1.5">
+          {NAV.map((n) => {
+            const active = pathname === n.to;
+            return (
+              <Link
+                key={n.to}
+                to={n.to}
+                data-testid={`nav-${n.label.toLowerCase().replace(/ /g, "-")}`}
+                className={`group relative flex items-center gap-2 px-3 py-2 font-accent text-[10px] uppercase tracking-[0.2em] transition-all ${
+                  active
+                    ? "text-[#22c55e]"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                {/* Hover/active box */}
+                <span
+                  aria-hidden
+                  className={`absolute inset-0 transition-all duration-200 ${
+                    active
+                      ? "bg-[#22c55e]/10 border border-[#22c55e]/40 shadow-block-sm scale-100 opacity-100"
+                      : "bg-[#111113]/0 border border-transparent scale-90 opacity-0 group-hover:bg-[#111113] group-hover:border-white/10 group-hover:scale-100 group-hover:opacity-100 group-hover:shadow-block-sm"
+                  }`}
+                  style={{ borderRadius: 2 }}
+                />
+                <span className="relative flex items-center gap-2">
+                  <ThemedIcon name={n.icon} size={12} />
+                  {n.label}
+                </span>
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
@@ -129,37 +150,39 @@ export default function Navbar({ managementUrl, discordUrl }) {
           data-testid="mobile-menu"
           className="lg:hidden border-t border-white/10 bg-[#0a0a0a]"
         >
-          <div className="container-oc py-6 flex flex-col gap-4">
-            {NAV.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                data-testid={`mobile-nav-${n.label.toLowerCase().replace(/ /g, "-")}`}
-                className="font-accent text-sm uppercase tracking-[0.2em] text-white/80"
-              >
-                {n.label}
-              </Link>
-            ))}
-            <div className="pt-2 flex flex-col gap-3">
-              <a
-                href={discordUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="block-btn-ghost"
-                data-testid="mobile-discord-btn"
-              >
-                Join Discord
-              </a>
-              <a
-                href={managementUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="block-btn"
-                data-testid="mobile-management-link"
-              >
-                Mods Panel (Staff)
-              </a>
-            </div>
+          <div className="container-oc py-6 grid grid-cols-2 gap-2">
+            {navData.main
+              .filter((n) => !n.inactive || n.to === "/support")
+              .map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  data-testid={`mobile-nav-${n.label.toLowerCase().replace(/ /g, "-")}`}
+                  className="flex items-center gap-2 px-3 py-2 bg-[#111113] border border-white/10 shadow-block-sm font-accent text-[10px] uppercase tracking-[0.2em] text-white/80"
+                >
+                  <ThemedIcon name={n.icon} size={12} />
+                  {n.label}
+                  {n.inactive && (
+                    <span className="ml-auto text-white/30">soon</span>
+                  )}
+                </Link>
+              ))}
+            <a
+              href={discordUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="block-btn-ghost col-span-2"
+            >
+              Join Discord
+            </a>
+            <a
+              href={managementUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="block-btn col-span-2"
+            >
+              Mods Panel
+            </a>
           </div>
         </div>
       )}
