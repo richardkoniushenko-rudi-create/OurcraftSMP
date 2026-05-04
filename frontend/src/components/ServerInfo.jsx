@@ -5,11 +5,12 @@ export default function ServerInfo({ info, status }) {
   const rows = [
     { k: "Server Name", v: info?.name || "Ourcraft SMP" },
     { k: "Server IP", v: info?.ip || "play.ourcraft.online" },
-    { k: "Version", v: `Minecraft Java ${info?.version || "1.21.1"}` },
-    { k: "Modpack", v: info?.modpack || "Mounts of Mayhem" },
+    { k: "Version", v: `Minecraft Java ${info?.version || "1.21.11"}` },
     { k: "Modloader", v: "Fabric" },
     { k: "Gamemode", v: info?.gamemode || "Survival (SMP)" },
-    { k: "Max Players", v: info?.max_players ?? 100 },
+    { k: "Max Players", v: info?.max_players ?? 200 },
+    { k: "CPU", v: info?.cpu || "AMD Ryzen 7 6800H" },
+    { k: "RAM", v: info?.ram || "32 GB DDR5" },
     { k: "Discord Members", v: status?.discord_members ?? 0 },
     { k: "Uptime (30d)", v: info?.uptime || "99.9%" },
   ];

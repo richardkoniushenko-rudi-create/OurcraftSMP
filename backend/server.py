@@ -53,6 +53,8 @@ class ServerInfo(BaseModel):
     discord_invite_url: str
     gamemode: str
     uptime: str
+    cpu: str
+    ram: str
 
 
 class ServerStatus(BaseModel):
@@ -115,14 +117,17 @@ async def server_info():
         ),
         gamemode="Survival (SMP)",
         uptime="99.9%",
+        cpu=os.environ.get("SERVER_CPU", "AMD Ryzen 7 6800H"),
+        ram=os.environ.get("SERVER_RAM", "32 GB DDR5"),
     )
 
 
 @api_router.get("/server/status", response_model=ServerStatus)
 async def server_status():
     s = get_public_state()
+    bot_ready = bool(s.get("ready", False))
     return ServerStatus(
-        online=True,
+        online=bot_ready,
         players_online=int(s.get("players_online", 0) or 0),
         max_players=int(os.environ.get("MINECRAFT_MAX_PLAYERS", "200")),
         discord_online=int(s.get("online_count", 0) or 0),

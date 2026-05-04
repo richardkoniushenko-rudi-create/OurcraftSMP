@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import "@/App.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CustomCursor from "@/components/CustomCursor";
 import useServerData from "@/hooks/useServerData";
 
 import Home from "@/pages/Home";
@@ -45,6 +46,7 @@ export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <CustomCursor />
         <Shell />
         <Toaster
           theme="dark"
