@@ -20,6 +20,7 @@
     { "key": "structures",   "label": "Structures",   "color": "#8b5a2b" },
     { "key": "tech",         "label": "Technology",   "color": "#06b6d4" },
     { "key": "optimisation", "label": "Optimisation", "color": "#f59e0b" },
+    { "key": "social",       "label": "Social",       "color": "#ec4899" },
     { "key": "utility",      "label": "Utility",      "color": "#a78bfa" }
   ],
   "mods": {
@@ -132,6 +133,28 @@
         "description": "Minimap + fullscreen world map with waypoints and cave visibility.",
         "tip": "Press M to open the world map; right-click to place waypoints."
       }
+    ],
+    "social": [
+      {
+        "name": "Chatting",
+        "description": "Modern Discord-style chat overhaul for Minecraft — emoji, mentions, rich formatting.",
+        "tip": "Press TAB to autocomplete player names and commands."
+      },
+      {
+        "name": "PlayerRevive",
+        "description": "Revive teammates who fall in combat before they fully die — real SMP drama.",
+        "tip": "You get 20 seconds to reach and right-click a downed teammate."
+      },
+      {
+        "name": "Nameplate Tweaks",
+        "description": "Customisable player nameplates with team colours, prefixes and distance fade.",
+        "tip": "Staff and boosters get unique tags visible in-game."
+      },
+      {
+        "name": "Emotecraft",
+        "description": "Fully animated player emotes triggered from a radial menu. Wave, dance, sit.",
+        "tip": "Hold B to open the emote wheel."
+      }
     ]
   },
   "datapacks": [
@@ -164,6 +187,16 @@
       "name": "Cross-Dimension Day/Night",
       "category": "terrain",
       "description": "Nether and End skies pulse with synchronized day/night."
+    },
+    {
+      "name": "Player Balloons",
+      "category": "social",
+      "description": "Players can tie decorative balloons to themselves on birthdays and events."
+    },
+    {
+      "name": "Heart Drops",
+      "category": "social",
+      "description": "Kill-assist mechanic — teammates who help in mob fights share XP."
     }
   ]
 }

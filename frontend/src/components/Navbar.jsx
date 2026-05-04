@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ExternalLink } from "lucide-react";
+import { toast } from "sonner";
 import { LOGO_URL } from "../constants";
 
 const NAV = [
@@ -15,6 +16,26 @@ export default function Navbar({ managementUrl, discordUrl }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const logoClicks = useRef(0);
+  const logoTimer = useRef(null);
+
+  const onLogoClick = (e) => {
+    // Only trigger the easter egg if user is already on "/"
+    if (pathname !== "/") return;
+    logoClicks.current += 1;
+    if (logoTimer.current) clearTimeout(logoTimer.current);
+    logoTimer.current = setTimeout(() => {
+      logoClicks.current = 0;
+    }, 1500);
+    if (logoClicks.current === 5) {
+      logoClicks.current = 0;
+      e.preventDefault();
+      toast("⛏ Secret unlocked!", {
+        description: "Enjoy the minigame — break the blocks!",
+      });
+      window.__openOurcraftGame?.();
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -37,7 +58,7 @@ export default function Navbar({ managementUrl, discordUrl }) {
       }`}
     >
       <div className="container-oc flex items-center justify-between h-16">
-        <Link to="/" data-testid="logo-link" className="flex items-center gap-3">
+        <Link to="/" data-testid="logo-link" onClick={onLogoClick} className="flex items-center gap-3">
           <img
             src={LOGO_URL}
             alt="Ourcraft"

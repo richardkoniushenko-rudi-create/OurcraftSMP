@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Hash, MessageSquare, Users } from "lucide-react";
-import { fetchDiscordChat, fetchDiscordInfo } from "../lib/api";
+import { Hash, MessageSquare, Users, Send } from "lucide-react";
+import { toast } from "sonner";
+import { fetchDiscordChat, fetchDiscordInfo, sendDiscordMessage } from "../lib/api";
 
 function relTime(iso) {
   if (!iso) return "";
@@ -161,7 +162,7 @@ export default function DiscordChat({ status, discordUrl }) {
             </div>
             <div
               ref={scrollRef}
-              className="h-[340px] overflow-y-auto px-4 py-3 space-y-3 bg-[#0a0a0a]"
+              className="h-[300px] overflow-y-auto px-4 py-3 space-y-3 bg-[#0a0a0a]"
             >
               {messages.map((m) => (
                 <div
@@ -205,9 +206,93 @@ export default function DiscordChat({ status, discordUrl }) {
                 </div>
               ))}
             </div>
+
+            <ChatSendBox onSent={() => {/* next poll fetches new msg */}} />
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+const PRESETS = [
+  "What's cool about this SMP?",
+  "How do I begin?",
+  "Is it worth joining?",
+  "What mods are in the pack?",
+];
+
+function ChatSendBox({ onSent }) {
+  const [value, setValue] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const submit = async (text) => {
+    const msg = (text ?? value).trim();
+    if (!msg || busy) return;
+    setBusy(true);
+    try {
+      const res = await sendDiscordMessage(msg, "Anon");
+      if (res.sent) {
+        toast.success("Message sent to Discord!");
+        setValue("");
+        onSent?.();
+      } else {
+        toast.error(res.reason || "Message could not be sent.");
+      }
+    } catch (e) {
+      toast.error("Could not reach the server.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div
+      data-testid="chat-send-box"
+      className="border-t border-white/10 bg-[#0d0d0f] px-4 py-3"
+    >
+      <div className="flex flex-wrap gap-1.5 mb-2">
+        {PRESETS.map((p) => (
+          <button
+            key={p}
+            data-testid={`preset-${p.slice(0, 12)}`}
+            onClick={() => submit(p)}
+            disabled={busy}
+            className="font-accent text-[9px] uppercase tracking-[0.15em] text-white/70 bg-[#1a1a1d] border border-white/10 px-2 py-1 hover:bg-[#22c55e]/15 hover:text-[#22c55e] disabled:opacity-40"
+          >
+            {p}
+          </button>
+        ))}
+      </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          submit();
+        }}
+        className="flex gap-2 items-stretch"
+      >
+        <input
+          data-testid="chat-send-input"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="Ask about the SMP as Anon…"
+          maxLength={240}
+          disabled={busy}
+          className="flex-1 bg-[#0a0a0a] border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#22c55e]/60"
+        />
+        <button
+          type="submit"
+          data-testid="chat-send-btn"
+          disabled={busy || !value.trim()}
+          className="px-3 bg-[#22c55e] text-black font-accent text-[10px] uppercase tracking-[0.2em] hover:bg-[#16a34a] disabled:bg-white/10 disabled:text-white/30"
+        >
+          <Send size={14} />
+        </button>
+      </form>
+      <div className="mt-2 text-[10px] text-white/40 leading-snug">
+        Posts to Discord as <span className="text-[#22c55e]">[Web · Anon]</span>.
+        Only SMP-related questions are allowed; profanity is blocked.
+      </div>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import "@/App.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import EasterEggs from "@/components/EasterEggs";
 import useServerData from "@/hooks/useServerData";
 
 import Home from "@/pages/Home";
@@ -47,6 +48,7 @@ export default function App() {
     <div className="App">
       <BrowserRouter>
         <CustomCursor />
+        <EasterEggs />
         <Shell />
         <Toaster
           theme="dark"

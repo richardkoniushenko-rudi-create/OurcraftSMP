@@ -8,3 +8,7 @@ export const fetchServerStatus = () => axios.get(`${API}/server/status`).then((r
 export const fetchDiscordInfo = () => axios.get(`${API}/discord/info`).then((r) => r.data);
 export const fetchDiscordChat = (limit = 20) =>
   axios.get(`${API}/discord/chat`, { params: { limit } }).then((r) => r.data);
+export const sendDiscordMessage = (content, nickname = "Anon") =>
+  axios
+    .post(`${API}/discord/send`, { content, nickname })
+    .then((r) => r.data);

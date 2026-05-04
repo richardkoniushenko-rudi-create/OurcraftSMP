@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, APIRouter, Query
+from fastapi import FastAPI, APIRouter, Query, Request
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -17,7 +17,9 @@ from discord_bot import (  # noqa: E402
     stop_bot,
     get_public_state,
     get_recent_messages,
+    send_web_message,
 )
+from chat_filter import validate_message, ALLOWED_TOPICS_HINT  # noqa: E402
 
 # MongoDB
 mongo_url = os.environ["MONGO_URL"]
@@ -81,6 +83,17 @@ class ChatMessage(BaseModel):
 class ChannelListItem(BaseModel):
     id: str
     name: str
+
+
+class SendMessageIn(BaseModel):
+    content: str
+    nickname: Optional[str] = "Anon"
+
+
+class SendMessageOut(BaseModel):
+    sent: bool
+    reason: Optional[str] = None
+    hint: Optional[str] = None
 
 
 class DiscordInfo(BaseModel):
@@ -160,6 +173,41 @@ async def discord_channels():
 @api_router.get("/discord/chat", response_model=List[ChatMessage])
 async def discord_chat(limit: int = Query(20, ge=1, le=50)):
     return get_recent_messages(limit)
+
+
+# Rate limiting: per-IP cooldown
+_last_sent: dict = {}
+_COOLDOWN_SECONDS = 15
+
+
+@api_router.post("/discord/send", response_model=SendMessageOut)
+async def discord_send(payload: SendMessageIn, request: Request):
+    from time import monotonic
+
+    client_ip = request.client.host if request.client else "unknown"
+    now = monotonic()
+    last = _last_sent.get(client_ip, 0)
+    if now - last < _COOLDOWN_SECONDS:
+        wait = int(_COOLDOWN_SECONDS - (now - last))
+        return SendMessageOut(
+            sent=False,
+            reason=f"Please wait {wait}s before sending another message.",
+            hint=ALLOWED_TOPICS_HINT,
+        )
+
+    ok, reason = validate_message(payload.content)
+    if not ok:
+        return SendMessageOut(sent=False, reason=reason, hint=ALLOWED_TOPICS_HINT)
+
+    sent = await send_web_message(payload.content.strip(), payload.nickname or "Anon")
+    if not sent:
+        return SendMessageOut(
+            sent=False,
+            reason="Discord bot is not ready — try again in a moment.",
+            hint=ALLOWED_TOPICS_HINT,
+        )
+    _last_sent[client_ip] = now
+    return SendMessageOut(sent=True, hint=ALLOWED_TOPICS_HINT)
 
 
 app.include_router(api_router)

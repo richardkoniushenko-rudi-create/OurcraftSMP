@@ -318,6 +318,27 @@ async def stop_bot() -> None:
         _bot_task.cancel()
 
 
+async def send_web_message(content: str, nickname: str = "Anon") -> bool:
+    """Send a message to the active chat channel on behalf of a website visitor.
+
+    The message is prefixed so Discord moderators can identify it as coming
+    from the website (not from an in-game player).
+    """
+    if not state.ready or not state.active_channel_id:
+        return False
+    safe_nick = re.sub(r"[^A-Za-z0-9_\- ]", "", nickname or "Anon").strip()[:16] or "Anon"
+    formatted = f"**[Web · {safe_nick}]** {content}"
+    try:
+        channel = bot.get_channel(state.active_channel_id)
+        if channel is None:
+            return False
+        await channel.send(formatted, allowed_mentions=discord.AllowedMentions.none())
+        return True
+    except Exception as e:  # noqa: BLE001
+        logger.warning("send_web_message failed: %s", e)
+        return False
+
+
 def get_recent_messages(limit: int = 20) -> list[dict]:
     msgs = list(state.chat_messages)[-limit:]
     return msgs
