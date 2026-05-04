@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
 import { Activity, Users, Gauge, Globe } from "lucide-react";
+import useCountUp from "../hooks/useCountUp";
+
+function AnimatedNum({ value }) {
+  const v = useCountUp(typeof value === "number" ? value : 0);
+  if (typeof value !== "number") return <>{value}</>;
+  return <>{Math.round(v)}</>;
+}
 
 export default function LiveStatus({ status, info }) {
   const items = [
@@ -9,13 +16,15 @@ export default function LiveStatus({ status, info }) {
       sub: status?.bot_ready ? "Bot connected" : "Bot initializing",
       icon: <Activity size={18} />,
       ok: !!status?.online,
+      animated: false,
     },
     {
       label: "Players Online",
       value: status?.players_online ?? 0,
-      sub: `of ${status?.max_players ?? info?.max_players ?? 100} slots`,
+      sub: `of ${status?.max_players ?? info?.max_players ?? 200} slots`,
       icon: <Users size={18} />,
       ok: true,
+      animated: true,
     },
     {
       label: "Discord Online",
@@ -23,6 +32,7 @@ export default function LiveStatus({ status, info }) {
       sub: `${status?.discord_members ?? 0} total members`,
       icon: <Globe size={18} />,
       ok: true,
+      animated: true,
     },
     {
       label: "Uptime",
@@ -30,6 +40,7 @@ export default function LiveStatus({ status, info }) {
       sub: "last 30 days",
       icon: <Gauge size={18} />,
       ok: true,
+      animated: false,
     },
   ];
 
@@ -75,7 +86,7 @@ export default function LiveStatus({ status, info }) {
                 {it.label}
               </div>
               <div className="font-pixel text-4xl text-white leading-none mt-1">
-                {it.value}
+                {it.animated ? <AnimatedNum value={it.value} /> : it.value}
               </div>
               <div className="text-xs text-white/50 mt-1">{it.sub}</div>
             </motion.div>

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Hash, MessageSquare, Users, Send } from "lucide-react";
+import { Hash, MessageSquare, Users, Send, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { fetchDiscordChat, fetchDiscordInfo, sendDiscordMessage } from "../lib/api";
+import { getOrCreateNickname, regenerateNickname } from "../lib/nickname";
 
 function relTime(iso) {
   if (!iso) return "";
@@ -225,15 +226,27 @@ const PRESETS = [
 function ChatSendBox({ onSent }) {
   const [value, setValue] = useState("");
   const [busy, setBusy] = useState(false);
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    setNickname(getOrCreateNickname());
+  }, []);
+
+  const roll = () => {
+    setNickname(regenerateNickname());
+    toast("New identity rolled", {
+      description: "Your next message will use this name.",
+    });
+  };
 
   const submit = async (text) => {
     const msg = (text ?? value).trim();
     if (!msg || busy) return;
     setBusy(true);
     try {
-      const res = await sendDiscordMessage(msg, "Anon");
+      const res = await sendDiscordMessage(msg, nickname || "Anon");
       if (res.sent) {
-        toast.success("Message sent to Discord!");
+        toast.success(`Sent as ${nickname}`);
         setValue("");
         onSent?.();
       } else {
@@ -251,6 +264,28 @@ function ChatSendBox({ onSent }) {
       data-testid="chat-send-box"
       className="border-t border-white/10 bg-[#0d0d0f] px-4 py-3"
     >
+      <div className="flex items-center justify-between mb-2 gap-2">
+        <div className="flex items-center gap-2 text-[10px]">
+          <span className="font-accent uppercase tracking-[0.2em] text-white/40">
+            Posting as
+          </span>
+          <span
+            data-testid="nickname-badge"
+            className="font-pixel text-sm text-[#22c55e] px-2 py-0.5 bg-[#22c55e]/10 border border-[#22c55e]/30"
+          >
+            {nickname || "…"}
+          </span>
+          <button
+            type="button"
+            onClick={roll}
+            data-testid="reroll-name"
+            title="Roll a new name"
+            className="text-white/40 hover:text-[#22c55e] transition-colors"
+          >
+            <RefreshCw size={12} />
+          </button>
+        </div>
+      </div>
       <div className="flex flex-wrap gap-1.5 mb-2">
         {PRESETS.map((p) => (
           <button
@@ -258,7 +293,7 @@ function ChatSendBox({ onSent }) {
             data-testid={`preset-${p.slice(0, 12)}`}
             onClick={() => submit(p)}
             disabled={busy}
-            className="font-accent text-[9px] uppercase tracking-[0.15em] text-white/70 bg-[#1a1a1d] border border-white/10 px-2 py-1 hover:bg-[#22c55e]/15 hover:text-[#22c55e] disabled:opacity-40"
+            className="font-accent text-[9px] uppercase tracking-[0.15em] text-white/70 bg-[#1a1a1d] border border-white/10 px-2 py-1 transition-all hover:bg-[#22c55e]/15 hover:text-[#22c55e] hover:border-[#22c55e]/40 disabled:opacity-40"
           >
             {p}
           </button>
@@ -275,22 +310,22 @@ function ChatSendBox({ onSent }) {
           data-testid="chat-send-input"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Ask about the SMP as Anon…"
+          placeholder={`Ask about the SMP as ${nickname || "…"}…`}
           maxLength={240}
           disabled={busy}
-          className="flex-1 bg-[#0a0a0a] border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#22c55e]/60"
+          className="flex-1 bg-[#0a0a0a] border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#22c55e]/60 transition-colors"
         />
         <button
           type="submit"
           data-testid="chat-send-btn"
           disabled={busy || !value.trim()}
-          className="px-3 bg-[#22c55e] text-black font-accent text-[10px] uppercase tracking-[0.2em] hover:bg-[#16a34a] disabled:bg-white/10 disabled:text-white/30"
+          className="px-3 bg-[#22c55e] text-black font-accent text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-[#16a34a] hover:shadow-[0_0_18px_rgba(34,197,94,0.5)] disabled:bg-white/10 disabled:text-white/30"
         >
           <Send size={14} />
         </button>
       </form>
       <div className="mt-2 text-[10px] text-white/40 leading-snug">
-        Posts to Discord as <span className="text-[#22c55e]">[Web · Anon]</span>.
+        Posts to Discord as <span className="text-[#22c55e]">[Web · {nickname || "…"}]</span>.
         Only SMP-related questions are allowed; profanity is blocked.
       </div>
     </div>
