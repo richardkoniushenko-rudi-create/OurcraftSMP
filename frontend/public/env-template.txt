@@ -1,0 +1,33 @@
+# =============================================================================
+# OURCRAFT BACKEND .env TEMPLATE — copy into /app/backend/.env
+# =============================================================================
+# MongoDB
+MONGO_URL="mongodb://localhost:27017"
+DB_NAME="test_database"
+CORS_ORIGINS="*"
+
+# Discord bot (used to read live chat from your guild)
+DISCORD_BOT_TOKEN="your-bot-token-here"
+DISCORD_GUILD_ID="your-guild-id"
+DISCORD_INVITE_URL="https://discord.gg/your-invite"
+DISCORD_CHAT_CHANNEL_ID=""  # leave blank to auto-detect minecraft-chat
+
+# Discord webhooks
+DISCORD_CHAT_WEBHOOK_URL="https://discord.com/api/webhooks/..."
+DISCORD_ADMIN_WEBHOOK_URL="https://discord.com/api/webhooks/..."
+
+# (Optional) Build Showcase moderation webhook — leave equal to admin if unset
+DISCORD_SHOWCASE_WEBHOOK_URL=""
+
+# Server display values (shown on the website)
+MINECRAFT_SERVER_IP="play.ourcraft.online"
+MINECRAFT_VERSION="1.21.11"
+MINECRAFT_MODPACK="Mounts of Mayhem"
+MINECRAFT_MAX_PLAYERS="200"
+SERVER_CPU="AMD Ryzen 7 6800H"
+SERVER_RAM="32 GB DDR5"
+
+# Optional live map embed (Dynmap/BlueMap iframe URL)
+MAP_URL=""
+
+MANAGEMENT_PANEL_URL="https://management_panel.mcboost.online/"

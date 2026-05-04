@@ -28,6 +28,22 @@
       "date": "2025-10",
       "summary": "Live now. Version 1.21.11 with the full Ourcraft modpack and custom datapacks.",
       "highlights": ["Discord chat bridge live", "Easter egg hunt launched", "This website!"]
+    },
+    {
+      "id": "upcoming-events",
+      "name": "Coming Soon — Events",
+      "date": "TBA",
+      "summary": "Planned community events — dates announced in #events on Discord.",
+      "highlights": ["Spring Build Battle", "Mob Hunt Tournament", "Treasure Hunt: Lost Crown"],
+      "coming_soon": true
+    },
+    {
+      "id": "season-5",
+      "name": "Season 5 — TBA",
+      "date": "TBA",
+      "summary": "Next world reset · new modpack candidate · TBD.",
+      "highlights": ["New seed", "Fresh structures", "Community vote on theme"],
+      "coming_soon": true
     }
   ]
 }

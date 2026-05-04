@@ -1,0 +1,47 @@
+{
+  "comment": "MASTER CONFIG — toggle features and subpages from one place. Save → website hot reloads.",
+  "subpages": {
+    "home":         { "enabled": true,  "label": "Home" },
+    "how_to_play":  { "enabled": true,  "label": "How to Play" },
+    "starter":      { "enabled": true,  "label": "Starter Guide" },
+    "mods":         { "enabled": true,  "label": "Mods" },
+    "gallery":      { "enabled": true,  "label": "Gallery" },
+    "minigames":    { "enabled": true,  "label": "Minigames" },
+    "leaderboard":  { "enabled": true,  "label": "Leaderboard" },
+    "rules":        { "enabled": true,  "label": "Rules" },
+    "timeline":     { "enabled": true,  "label": "Timeline" },
+    "live":         { "enabled": true,  "label": "Live Status" },
+    "faq":          { "enabled": true,  "label": "FAQ" },
+    "lore":         { "enabled": false, "label": "Lore" },
+    "news":         { "enabled": false, "label": "News" },
+    "blog":         { "enabled": false, "label": "Staff Blog" },
+    "showcase":     { "enabled": true,  "label": "Build Showcase" },
+    "support":      { "enabled": false, "label": "Support Us" },
+    "server_info":  { "enabled": true,  "label": "Server Info" }
+  },
+  "features": {
+    "sounds_enabled":      true,
+    "block_fall_bg":       true,
+    "ember_particles":     true,
+    "discord_chat_send":   true,
+    "leaderboard_monthly_reset": true,
+    "show_env_template":   true
+  },
+  "external": {
+    "map_url":          "",
+    "github_url":       "https://github.com/",
+    "modrinth_url":     "https://modrinth.com/user/viktor.koniushenko",
+    "discord_invite":   "https://discord.gg/pFj6mZubVu",
+    "management_panel": "https://management_panel.mcboost.online/"
+  },
+  "server": {
+    "ip":           "play.ourcraft.online",
+    "version":      "1.21.11",
+    "modloaders":   ["Fabric", "Forge", "NeoForge", "Quilt"],
+    "max_players":  200,
+    "tps":          20,
+    "uptime":       "99.9%",
+    "cpu":          "AMD Ryzen 7 6800H",
+    "ram":          "32 GB DDR5"
+  }
+}

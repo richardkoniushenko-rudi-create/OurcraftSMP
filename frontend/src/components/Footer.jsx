@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { LOGO_URL } from "../constants";
 import HiddenEgg from "./HiddenEgg";
+import ThemedIcon from "./ThemedIcon";
 import rules from "../data/rules.json";
 
 export default function Footer({ info }) {
@@ -58,7 +59,7 @@ export default function Footer({ info }) {
   ];
 
   const ruleHighlights = useMemo(
-    () => rules.minecraft.slice(0, 3).map((r) => r.title),
+    () => rules.minecraft.slice(0, 3),
     [],
   );
 
@@ -100,11 +101,16 @@ export default function Footer({ info }) {
               <div className="font-accent text-[10px] uppercase tracking-[0.2em] text-[#22c55e] flex items-center gap-2">
                 <Gavel size={12} /> Server rules at a glance
               </div>
-              <ul className="mt-2 text-xs text-white/65 space-y-1">
-                {ruleHighlights.map((t) => (
-                  <li key={t} className="flex gap-2">
-                    <span className="text-[#22c55e] font-pixel">■</span>
-                    {t}
+              <ul className="mt-2 text-xs text-white/65 space-y-1.5">
+                {ruleHighlights.map((r) => (
+                  <li key={r.title} className="flex items-start gap-2">
+                    <span
+                      className="w-5 h-5 flex items-center justify-center bg-[#22c55e]/15 text-[#22c55e] flex-shrink-0 mt-0.5"
+                      aria-hidden
+                    >
+                      <ThemedIcon name={r.icon} size={11} />
+                    </span>
+                    <span className="leading-tight">{r.title}</span>
                   </li>
                 ))}
               </ul>

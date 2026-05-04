@@ -1,6 +1,11 @@
 import { motion } from "framer-motion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 import { Heart, Mountain, Castle, Sword, Cog } from "lucide-react";
-import { FEATURES_BG, MODS_BG } from "../constants";
 
 const FEATURES = [
   {
@@ -11,6 +16,7 @@ const FEATURES = [
     span: "md:col-span-7",
     progress: 100,
     progressLabel: "Stable",
+    bg: "/features/vanilla.png",
   },
   {
     title: "Modded Muscle",
@@ -20,6 +26,7 @@ const FEATURES = [
     span: "md:col-span-5",
     progress: 95,
     progressLabel: "Live",
+    bg: "/features/modded.png",
   },
   {
     title: "Custom Terrain",
@@ -29,7 +36,7 @@ const FEATURES = [
     span: "md:col-span-4",
     progress: 90,
     progressLabel: "Worldgen",
-    bg: FEATURES_BG,
+    bg: "/features/terrain.png",
   },
   {
     title: "Custom Structures",
@@ -39,6 +46,7 @@ const FEATURES = [
     span: "md:col-span-4",
     progress: 88,
     progressLabel: "Looting",
+    bg: "/features/structures.png",
   },
   {
     title: "Adventure Ready",
@@ -48,7 +56,7 @@ const FEATURES = [
     span: "md:col-span-4",
     progress: 80,
     progressLabel: "Combat",
-    bg: MODS_BG,
+    bg: "/features/adventure.png",
   },
 ];
 
@@ -88,13 +96,25 @@ export default function Features() {
                 }
               >
                 <div className="flex items-start gap-3">
-                  <div
-                    className="w-12 h-12 flex items-center justify-center"
-                    style={{ background: `${f.accent}1f`, color: f.accent }}
-                    aria-hidden
-                  >
-                    <Ic size={22} />
-                  </div>
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div
+                          className="w-12 h-12 flex items-center justify-center cursor-help"
+                          style={{ background: `${f.accent}1f`, color: f.accent }}
+                          aria-hidden
+                        >
+                          <Ic size={22} />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent
+                        side="top"
+                        className="font-pixel text-sm bg-[#0a0a0a] border border-white/10 text-white"
+                      >
+                        {f.title}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   <div className="flex-1">
                     <h3 className="font-pixel text-3xl md:text-4xl text-white">
                       {f.title}

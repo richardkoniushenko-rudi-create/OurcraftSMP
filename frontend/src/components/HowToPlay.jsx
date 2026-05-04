@@ -13,14 +13,14 @@ const STEPS = [
   },
   {
     step: "02",
-    title: "Install Fabric",
-    body: "Download the Fabric loader for the server's exact version (1.21.11). Vanilla won't connect.",
+    title: "Install a Modloader",
+    body: "Pick any: Fabric, Forge, NeoForge or Quilt for the server's exact version (1.21.11). Vanilla won't connect.",
     icon: Download,
   },
   {
     step: "03",
     title: "(Optional) Client Mods",
-    body: "Ourcraft is server-side. You can play vanilla. For 256-chunk render distance and FPS, install Sodium, Iris, and Simple Voxel-style optimisers — all OK with us.",
+    body: "Ourcraft is server-side. You can play with just the loader. For 256-chunk render distance + FPS, install Sodium, Iris, and Simple Voxel-style optimisers — all OK with us.",
     icon: Zap,
   },
   {
@@ -111,7 +111,7 @@ export default function HowToPlay({ info }) {
                 </button>
               </div>
               <div className="text-white/60 text-sm mt-2">
-                Minecraft Java {info?.version || "1.21.11"} · Fabric · Server-side modded
+                Minecraft Java {info?.version || "1.21.11"} · Fabric · Forge · NeoForge · Quilt — your choice
               </div>
             </div>
             <a
