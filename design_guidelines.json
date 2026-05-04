@@ -1,0 +1,86 @@
+{
+  "project_name": "Ourcraft SMP Landing Page",
+  "theme": "dark",
+  "archetype": "1 (Organic & Earthy) - Gaming Dark Variant",
+  "design_philosophy": "Voxel-inspired neo-brutalism. Deep earthy tones combined with high-contrast gaming elements. Emphasizes blocky aesthetics, hard shadows, and immersive 3D generated backgrounds. Avoids standard SaaS styling in favor of community-focused, playful yet robust gaming interfaces.",
+  "typography": {
+    "fonts": {
+      "headings": "'VT323', monospace",
+      "body": "'IBM Plex Sans', sans-serif",
+      "accent": "'Silkscreen', cursive"
+    },
+    "scale": {
+      "h1": "text-5xl md:text-6xl+ tracking-tighter",
+      "h2": "text-3xl md:text-4xl tracking-tight",
+      "h3": "text-xl md:text-2xl",
+      "body": "text-base leading-relaxed",
+      "overline": "text-sm uppercase tracking-[0.2em] font-accent"
+    },
+    "instructions": "Use VT323 for high-impact headers. IBM Plex Sans for legible reading of guides/mods. Headings must never use generic sans. Silkscreen used for small badges, tags, and overlines."
+  },
+  "colors": {
+    "background": {
+      "primary": "#0A0A0A",
+      "secondary": "#1C1C1E",
+      "overlay": "rgba(0, 0, 0, 0.6)"
+    },
+    "brand": {
+      "emerald": "#22C55E",
+      "dirt": "#8B5A2B",
+      "stone": "#3F3F46",
+      "diamond": "#06B6D4"
+    },
+    "text": {
+      "primary": "#F3F4F6",
+      "secondary": "#A1A1AA",
+      "muted": "#71717A"
+    },
+    "semantic": {
+      "online": "#22C55E",
+      "offline": "#EF4444",
+      "border": "rgba(255, 255, 255, 0.1)"
+    }
+  },
+  "layout_and_spacing": {
+    "container": "max-w-7xl mx-auto px-6 md:px-12",
+    "section_padding": "py-24 md:py-32",
+    "grid_system": "Bento Grid Mode A (Tetris Grid) for visual tension. Use asymmetrical spans (col-span-8, col-span-4) for features.",
+    "border_radius": "rounded-none or rounded-sm (Embrace the blocky Minecraft aesthetic)"
+  },
+  "surfaces_and_effects": {
+    "cards": "Neo-brutalist block styling: dark background (#1C1C1E), 1px sharp inner border (border-white/10), and a hard blocky drop shadow (shadow-[4px_4px_0px_0px_#000] or shadow-[4px_4px_0px_0px_#22C55E] on hover).",
+    "glassmorphism": "Used only for the sticky navigation. backdrop-blur-xl bg-[#0A0A0A]/80 border-b border-white/10.",
+    "buttons": "Blocky, sharp corners. Primary CTA uses emerald green bg, black text, hard black shadow. Hover pushes button down: translate-x-[2px] translate-y-[2px] and reduces shadow to 2px.",
+    "hover_states": "Interactive elements must translate up and left (-translate-y-1 -translate-x-1) and increase hard shadow offset, maintaining the 'block' interaction feel."
+  },
+  "media": {
+    "brand_logo": "https://customer-assets.emergentagent.com/job_craft-portal-17/artifacts/gokkam2h_image%20%281%29_Nero_AI_Image_Upscaler_Reconstruct%20%281%29.png",
+    "hero_background": "https://static.prod-images.emergentagent.com/jobs/258f7627-9ce4-4722-9651-f50efe1127c0/images/742acadb6c5873dea07ac596ec48a1376bf2f88e5814c5ad1380d3eef15891bf.png",
+    "features_background": "https://static.prod-images.emergentagent.com/jobs/258f7627-9ce4-4722-9651-f50efe1127c0/images/99fc1482770e6d78b42e6c8acce6d7f80a0544917c172eca57af6d981f544089.png",
+    "mods_background": "https://static.prod-images.emergentagent.com/jobs/258f7627-9ce4-4722-9651-f50efe1127c0/images/8d24596330b37ce80a5a9b9ef761ead74026afddd425289c4ac95c4c54908fa5.png",
+    "fallback_gallery_1": "https://images.unsplash.com/photo-1503542469110-afdbf0ea7234?auto=format&fit=crop&w=1200&q=80",
+    "instructions": "Hero background must use a dark overlay (bg-black/50 to bg-black/70) to ensure the logo and IP copy text are legible. Use background images extensively in bento cards with blend modes."
+  },
+  "component_instructions": {
+    "navigation": "Sticky top, glassmorphism. Left: Logo. Center: Nav links. Right: Discord icon + 'Management Panel' link. Use Phosphor Icons or Lucide.",
+    "hero": "Center aligned. Massive logo image. Subtitle. 'Copy IP' widget (a stylized input field with a copy button). 'Join Discord' secondary CTA. Live player count badge floating near IP widget.",
+    "ip_copy_widget": "A dark blocky input displaying 'play.ourcraft.net' (mock IP) with a bright green 'Copy' button. On click, show a toast 'IP Copied to Clipboard!'.",
+    "live_status": "Integrate a section with visual indicators (green pulsing dot) showing 'Server Online' and mock stats (e.g., 24/100 players, 45 in Discord).",
+    "features_bento": "Asymmetrical grid. Use features_background and mods_background inside specific cards with overlay text. Highlight 'Modded Terrain', 'Custom Structures', 'SMP Community'.",
+    "how_to_play": "Step-by-step vertical timeline or horizontal cards. 1. Java 2. Fabric/Forge 3. Modpack 4. Connect. Use block icons for each step.",
+    "mods_list": "Cardless or dense list. Clean typography (IBM Plex). Title, short description, usage tip. Maybe accordion style using Shadcn.",
+    "gallery": "Grid layout. Mix generated images and placeholders. Include hover zoom effect.",
+    "discord_widget": "A dark window styling representing an in-game chat feed bridged to Discord. Use semantic tags and mock chat lines. CTA 'Join Discord' to https://discord.gg/pFj6mZubVu",
+    "management_redirect": "Prominent 'Management Panel' CTA in header and footer linking to https://management_panel.mcboost.online/"
+  },
+  "accessibility_and_testing": {
+    "contrast": "Ensure white text on #1C1C1E passes APCA. Use text-shadow on hero text.",
+    "motion": "Use smooth scrolling (Lenis) if possible. Ensure hover translations do not trigger layout shifts.",
+    "data_testid": "Add data-testid attributes to ALL interactive elements (e.g., 'copy-ip-button', 'nav-management-link', 'discord-invite-button')."
+  },
+  "tech_stack": {
+    "framework": "React JS, Tailwind CSS, Framer Motion",
+    "ui_library": "Shadcn UI (Customized for blocky aesthetics)",
+    "icons": "lucide-react (or phosphor-icons/react)"
+  }
+}
