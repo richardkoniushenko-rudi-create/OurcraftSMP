@@ -1,9 +1,9 @@
 {
-  "comment": "EDIT THIS FILE TO MANAGE YOUR MODS. See INSTRUCTIONS below. Copy an existing entry to add a new mod.",
+  "comment": "EDIT THIS FILE TO MANAGE YOUR MODS. See INSTRUCTIONS below.",
   "instructions": {
     "how_to_add_a_mod": [
       "1. Open this file: frontend/src/data/mods.json",
-      "2. Find the category (terrain, structures, tech, food, utility, travel) under 'mods'.",
+      "2. Find the category (terrain, structures, tech, optimisation, utility) under 'mods'.",
       "3. Copy any existing { name, description, tip } block.",
       "4. Paste it in the same category and edit the 3 fields.",
       "5. Save. The website updates automatically (hot reload).",
@@ -12,16 +12,15 @@
     ],
     "how_to_add_a_datapack": [
       "Add a { name, category, description } object to the 'datapacks' array.",
-      "Category must match an existing category 'key' (or 'utility' for general)."
+      "Category must match an existing category 'key'."
     ]
   },
   "categories": [
-    { "key": "terrain",    "label": "Terrain",     "color": "#22c55e" },
-    { "key": "structures", "label": "Structures",  "color": "#8b5a2b" },
-    { "key": "tech",       "label": "Technology",  "color": "#06b6d4" },
-    { "key": "food",       "label": "Food",        "color": "#f59e0b" },
-    { "key": "utility",    "label": "Utility",     "color": "#a78bfa" },
-    { "key": "travel",     "label": "Travel",      "color": "#ef4444" }
+    { "key": "terrain",      "label": "Terrain",      "color": "#22c55e" },
+    { "key": "structures",   "label": "Structures",   "color": "#8b5a2b" },
+    { "key": "tech",         "label": "Technology",   "color": "#06b6d4" },
+    { "key": "optimisation", "label": "Optimisation", "color": "#f59e0b" },
+    { "key": "utility",      "label": "Utility",      "color": "#a78bfa" }
   ],
   "mods": {
     "terrain": [
@@ -73,18 +72,38 @@
         "name": "Applied Energistics 2",
         "description": "Digital storage network — store thousands of items in crafted ME drives with craft-on-demand.",
         "tip": "Start with a 1k drive + terminal — scale as you go."
-      }
-    ],
-    "food": [
-      {
-        "name": "Farmer's Delight",
-        "description": "Adds kitchens, stoves and a full cooking system with 50+ dishes that grant buffs.",
-        "tip": "Roasted Mutton Chops give nourishment for 3 minutes."
       },
       {
-        "name": "Croptopia",
-        "description": "Dozens of new crops, fruits and juices to farm, cook and trade.",
-        "tip": "Plant orange trees near water for passive XP farming."
+        "name": "Immersive Engineering",
+        "description": "Retro-industrial tech mod with multi-block machines, power lines and dieselpunk aesthetics.",
+        "tip": "Build a windmill first — it's the cheapest early power source."
+      }
+    ],
+    "optimisation": [
+      {
+        "name": "Sodium",
+        "description": "Modern rewrite of the chunk renderer — massive FPS boost with no visual changes.",
+        "tip": "Pair with Iris if you want shaders without losing FPS."
+      },
+      {
+        "name": "Lithium",
+        "description": "Game logic and tick optimisations that reduce server and client CPU usage.",
+        "tip": "Safe to install everywhere — no config needed."
+      },
+      {
+        "name": "FerriteCore",
+        "description": "Cuts memory usage dramatically by deduplicating BlockStates and NBT data.",
+        "tip": "Expect 20–30% less RAM used with large modpacks."
+      },
+      {
+        "name": "Starlight",
+        "description": "Completely replaces the light engine for 10–50× faster light updates.",
+        "tip": "Fixes those annoying dark chunks when exploring fast."
+      },
+      {
+        "name": "Entity Culling",
+        "description": "Skips rendering entities that aren't visible through blocks for big FPS gains.",
+        "tip": "Massive help in mob farms and animal-heavy bases."
       }
     ],
     "utility": [
@@ -102,9 +121,7 @@
         "name": "Iron Chests",
         "description": "Bigger, upgradable chests — iron, gold, diamond tiers.",
         "tip": "Iron chests hold 54 slots, diamonds hold 108."
-      }
-    ],
-    "travel": [
+      },
       {
         "name": "Waystones",
         "description": "Build public or private waystones to fast-travel between community bases.",

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import ServerStatusPill from "./ServerStatusPill";
 
 export default function ServerInfo({ info, status }) {
   const rows = [
@@ -30,9 +31,12 @@ export default function ServerInfo({ info, status }) {
           <span className="overline">Server Info</span>
           <div className="pixel-divider flex-1 max-w-xs" />
         </div>
-        <h2 className="font-pixel text-4xl md:text-5xl text-white">
-          The <span className="text-[#22c55e]">essentials</span>
-        </h2>
+        <div className="flex flex-wrap items-end justify-between gap-4 mt-2">
+          <h2 className="font-pixel text-4xl md:text-5xl text-white">
+            The <span className="text-[#22c55e]">essentials</span>
+          </h2>
+          <ServerStatusPill status={status} />
+        </div>
 
         <div className="mt-10 grid lg:grid-cols-2 gap-6">
           <motion.div
@@ -44,9 +48,18 @@ export default function ServerInfo({ info, status }) {
           >
             <div className="px-5 py-3 border-b border-white/10 bg-[#0d0d0f] flex items-center justify-between">
               <span className="font-pixel text-xl text-white">/specs</span>
-              <span className="font-accent text-[9px] uppercase tracking-[0.2em] text-[#22c55e]">
-                Live
-              </span>
+              <div className="flex items-center gap-2" data-testid="specs-status-mini">
+                <span
+                  className={`w-2 h-2 ${status?.online ? "bg-[#22c55e] animate-pulse-soft" : "bg-red-500"}`}
+                />
+                <span
+                  className={`font-accent text-[9px] uppercase tracking-[0.2em] ${
+                    status?.online ? "text-[#22c55e]" : "text-red-400"
+                  }`}
+                >
+                  {status?.online ? "Live" : "Offline"}
+                </span>
+              </div>
             </div>
             <dl className="divide-y divide-white/5">
               {rows.map((r) => (
