@@ -30,33 +30,15 @@ export const MODS_BY_CAT = modsData.mods;
 export const DATAPACKS = modsData.datapacks;
 
 // -----------------------------------------------------------------------
-// Gallery images — edit this array to add/remove images
+// Gallery images — generated pixel-art scenes at /public/gallery
 // -----------------------------------------------------------------------
 export const GALLERY = [
-  {
-    url: "https://static.prod-images.emergentagent.com/jobs/258f7627-9ce4-4722-9651-f50efe1127c0/images/742acadb6c5873dea07ac596ec48a1376bf2f88e5814c5ad1380d3eef15891bf.png",
-    title: "Spawn Overworld",
-  },
-  {
-    url: "https://static.prod-images.emergentagent.com/jobs/258f7627-9ce4-4722-9651-f50efe1127c0/images/99fc1482770e6d78b42e6c8acce6d7f80a0544917c172eca57af6d981f544089.png",
-    title: "Custom Terrain",
-  },
-  {
-    url: "https://static.prod-images.emergentagent.com/jobs/258f7627-9ce4-4722-9651-f50efe1127c0/images/8d24596330b37ce80a5a9b9ef761ead74026afddd425289c4ac95c4c54908fa5.png",
-    title: "Dungeon Depths",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1606503153255-59d8b2e4739e?auto=format&fit=crop&w=1200&q=80",
-    title: "Creeper Valley",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1624969862644-791f3dc98927?auto=format&fit=crop&w=1200&q=80",
-    title: "Pixel Peaks",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1590422749897-47726d3f7241?auto=format&fit=crop&w=1200&q=80",
-    title: "Village Build",
-  },
+  { url: "/gallery/overworld.png", title: "Spawn Overworld" },
+  { url: "/gallery/mountain.png", title: "Sunset Peaks" },
+  { url: "/gallery/build.png", title: "Castle Build" },
+  { url: "/gallery/cave.png", title: "Deepdark Cave" },
+  { url: "/gallery/nether.png", title: "Nether Fortress" },
+  { url: "/gallery/ocean.png", title: "Island Outpost" },
 ];
 
 // -----------------------------------------------------------------------

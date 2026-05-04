@@ -6,6 +6,7 @@ import Mods from "@/components/Mods";
 import Gallery from "@/components/Gallery";
 import DiscordChat from "@/components/DiscordChat";
 import ServerInfo from "@/components/ServerInfo";
+import CreeperHunt from "@/components/CreeperHunt";
 
 export default function Home({ info, status }) {
   const discordUrl =
@@ -21,6 +22,7 @@ export default function Home({ info, status }) {
       <Gallery />
       <DiscordChat status={status} discordUrl={discordUrl} />
       <ServerInfo info={info} status={status} />
+      <CreeperHunt />
     </div>
   );
 }

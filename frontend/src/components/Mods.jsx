@@ -13,7 +13,7 @@ export default function Mods() {
     <section data-testid="mods-section" className="section-pad">
       <div className="container-oc">
         <div className="flex items-center gap-3 mb-6">
-          <span className="overline">Modpack · Mounts of Mayhem</span>
+          <span className="overline">Modpack</span>
           <div className="pixel-divider flex-1 max-w-xs" />
         </div>
         <h2 className="font-pixel text-4xl md:text-5xl text-white">

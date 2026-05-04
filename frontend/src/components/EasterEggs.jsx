@@ -146,6 +146,36 @@ export default function EasterEggs() {
         } else if (typedRef.current.includes("secret")) {
           typedRef.current = "";
           setGameOpen(true);
+        } else if (typedRef.current.includes("tnt")) {
+          typedRef.current = "";
+          toast("Boom! 💥");
+          shakeBody();
+          playHiss();
+          // Fire confetti via shared ref-style global
+          window.__ourcraftFireConfetti?.();
+        } else if (typedRef.current.includes("lava")) {
+          typedRef.current = "";
+          toast("🔥 Mind your step!");
+          // Flash orange tint briefly
+          const tint = document.createElement("div");
+          tint.style.cssText =
+            "position:fixed;inset:0;z-index:250;pointer-events:none;background:radial-gradient(circle at 50% 100%, rgba(240,100,20,0.5), transparent 70%);animation:lavaflash 1.2s ease-out forwards;";
+          const style = document.createElement("style");
+          style.textContent =
+            "@keyframes lavaflash{0%{opacity:0}15%{opacity:1}100%{opacity:0}}";
+          document.head.appendChild(style);
+          document.body.appendChild(tint);
+          setTimeout(() => {
+            tint.remove();
+            style.remove();
+          }, 1300);
+        } else if (typedRef.current.includes("ender")) {
+          typedRef.current = "";
+          toast("🟣 Teleported!");
+          window.scrollTo({
+            top: document.body.scrollHeight - window.innerHeight,
+            behavior: "smooth",
+          });
         }
       }
     };

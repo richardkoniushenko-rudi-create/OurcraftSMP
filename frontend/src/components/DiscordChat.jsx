@@ -3,6 +3,7 @@ import { Hash, MessageSquare, Users, Send, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { fetchDiscordChat, fetchDiscordInfo, sendDiscordMessage } from "../lib/api";
 import { getOrCreateNickname, regenerateNickname } from "../lib/nickname";
+import PixelAvatar from "./PixelAvatar";
 
 function relTime(iso) {
   if (!iso) return "";
@@ -171,15 +172,19 @@ export default function DiscordChat({ status, discordUrl }) {
                   data-testid={`chat-msg-${m.id}`}
                   className="flex gap-3"
                 >
-                  <div className="w-8 h-8 flex-shrink-0 bg-[#22c55e]/15 text-[#22c55e] flex items-center justify-center font-pixel text-lg">
+                  <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center overflow-hidden">
                     {m.avatar ? (
                       <img
                         src={m.avatar}
                         alt=""
                         className="w-full h-full object-cover"
                       />
+                    ) : m.author?.startsWith("[Web") || m.content?.startsWith("**[Web") ? (
+                      <PixelAvatar name={m.author || "anon"} size={32} />
                     ) : (
-                      m.author?.[0]?.toUpperCase() || "?"
+                      <div className="w-full h-full bg-[#22c55e]/15 text-[#22c55e] flex items-center justify-center font-pixel text-lg">
+                        {m.author?.[0]?.toUpperCase() || "?"}
+                      </div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -269,12 +274,15 @@ function ChatSendBox({ onSent }) {
           <span className="font-accent uppercase tracking-[0.2em] text-white/40">
             Posting as
           </span>
-          <span
-            data-testid="nickname-badge"
-            className="font-pixel text-sm text-[#22c55e] px-2 py-0.5 bg-[#22c55e]/10 border border-[#22c55e]/30"
-          >
-            {nickname || "…"}
-          </span>
+          <div className="flex items-center gap-2 px-2 py-0.5 bg-[#22c55e]/10 border border-[#22c55e]/30">
+            <PixelAvatar name={nickname || "anon"} size={18} />
+            <span
+              data-testid="nickname-badge"
+              className="font-pixel text-sm text-[#22c55e]"
+            >
+              {nickname || "…"}
+            </span>
+          </div>
           <button
             type="button"
             onClick={roll}

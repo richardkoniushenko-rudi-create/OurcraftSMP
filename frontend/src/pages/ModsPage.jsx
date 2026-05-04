@@ -33,7 +33,7 @@ export default function ModsPage() {
       <section className="section-pad pt-0">
         <div className="container-oc">
           <div className="flex items-center gap-3 mb-6">
-            <span className="overline">Modpack · Mounts of Mayhem</span>
+            <span className="overline">Mods · Datapacks</span>
             <div className="pixel-divider flex-1 max-w-xs" />
           </div>
 

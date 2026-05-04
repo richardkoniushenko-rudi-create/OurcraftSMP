@@ -1,12 +1,44 @@
+import {
+  Home,
+  PlayCircle,
+  Boxes,
+  Image as ImageIcon,
+  Server,
+  MessageCircle,
+  Wrench,
+  Package,
+  Github,
+  ArrowUpRight,
+} from "lucide-react";
 import { LOGO_URL } from "../constants";
+
+/**
+ * Simple M-mark for Modrinth (their brand mark redrawn as a pixel glyph)
+ */
+function ModrinthIcon({ size = 16 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      shapeRendering="crispEdges"
+      aria-hidden
+    >
+      <path
+        d="M3 3h2v2h2v2H5v6H3V3zm6 0h2v10h-2V9H9V7h2V5H9V3zm4 0h-2v10h2V3z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export default function Footer({ info }) {
   const exploreLinks = [
-    { label: "Home", href: "/" },
-    { label: "How to Play", href: "/how-to-play" },
-    { label: "Mods", href: "/mods" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Server Info", href: "/server-info" },
+    { label: "Home", href: "/", icon: Home },
+    { label: "How to Play", href: "/how-to-play", icon: PlayCircle },
+    { label: "Mods", href: "/mods", icon: Boxes },
+    { label: "Gallery", href: "/gallery", icon: ImageIcon },
+    { label: "Server Info", href: "/server-info", icon: Server },
   ];
 
   const externalLinks = [
@@ -14,6 +46,7 @@ export default function Footer({ info }) {
       label: "Discord",
       href: info?.discord_invite_url || "https://discord.gg/pFj6mZubVu",
       testid: "footer-discord-link",
+      icon: MessageCircle,
     },
     {
       label: "Mods Panel · Staff",
@@ -21,13 +54,27 @@ export default function Footer({ info }) {
         info?.management_panel_url ||
         "https://management_panel.mcboost.online/",
       testid: "footer-management-link",
+      icon: Wrench,
+    },
+    {
+      label: "Modrinth",
+      href: "https://modrinth.com/user/viktor.koniushenko",
+      testid: "footer-modrinth-link",
+      icon: Package,
+      accent: "#22c55e",
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com/",
+      testid: "footer-github-link",
+      icon: Github,
     },
   ];
 
   return (
     <footer
       data-testid="footer"
-      className="border-t border-white/10 bg-[#08080a] pt-14 pb-8"
+      className="relative z-[2] border-t border-white/10 bg-[#08080a] pt-14 pb-8"
     >
       <div className="container-oc">
         <div className="grid md:grid-cols-[1.4fr_1fr_1fr] gap-10">
@@ -59,13 +106,9 @@ export default function Footer({ info }) {
 
           <div>
             <div className="overline">Explore</div>
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className="mt-4 grid grid-cols-1 gap-2">
               {exploreLinks.map((l) => (
-                <BlockyLink
-                  key={l.href}
-                  href={l.href}
-                  data-testid={`footer-explore-${l.label.toLowerCase().replace(/ /g, "-")}`}
-                >
+                <BlockyLink key={l.href} href={l.href} Icon={l.icon}>
                   {l.label}
                 </BlockyLink>
               ))}
@@ -80,9 +123,11 @@ export default function Footer({ info }) {
                   key={l.href}
                   href={l.href}
                   external
+                  Icon={l.icon}
                   data-testid={l.testid}
+                  accent={l.accent}
                 >
-                  {l.label} →
+                  {l.label}
                 </BlockyLink>
               ))}
             </div>
@@ -97,7 +142,7 @@ export default function Footer({ info }) {
           <div
             className="font-accent text-[10px] uppercase tracking-[0.2em] text-white/40"
             data-testid="footer-easter-hint"
-            title="Try the Konami code… up up down down left right left right b a"
+            title="Try the Konami code… ↑ ↑ ↓ ↓ ← → ← → B A"
           >
             Built block by block.
           </div>
@@ -107,19 +152,28 @@ export default function Footer({ info }) {
   );
 }
 
-function BlockyLink({ href, external, children, ...rest }) {
-  const props = external
-    ? { target: "_blank", rel: "noreferrer" }
-    : {};
+function BlockyLink({ href, external, Icon, accent, children, ...rest }) {
+  const props = external ? { target: "_blank", rel: "noreferrer" } : {};
   return (
     <a
       href={href}
       {...props}
       {...rest}
-      className="group flex items-center justify-between px-3 py-2 bg-[#111113] border border-white/10 shadow-block-sm font-accent text-[10px] uppercase tracking-[0.2em] text-white/75 transition-transform duration-150 hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-block hover:border-[#22c55e]/40 hover:text-[#22c55e]"
+      className="group relative flex items-center gap-3 px-3 py-2 bg-[#111113] border border-white/10 shadow-block-sm font-accent text-[10px] uppercase tracking-[0.2em] text-white/80 overflow-hidden transition-all duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-block hover:border-[#22c55e]/40 hover:text-[#22c55e]"
     >
-      <span>{children}</span>
-      <span className="w-1.5 h-1.5 bg-[#22c55e]/60 group-hover:bg-[#22c55e]" />
+      <span
+        className="flex items-center justify-center w-6 h-6 bg-[#1a1a1d] text-[#22c55e] border border-white/5 transition-colors group-hover:bg-[#22c55e]/15"
+        style={accent ? { color: accent } : undefined}
+      >
+        {Icon === ModrinthIcon ? <ModrinthIcon size={14} /> : <Icon size={14} />}
+      </span>
+      <span className="flex-1 truncate">{children}</span>
+      {external && (
+        <ArrowUpRight
+          size={14}
+          className="text-white/30 group-hover:text-[#22c55e] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        />
+      )}
     </a>
   );
 }
