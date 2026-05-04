@@ -1,54 +1,65 @@
-import { useEffect } from "react";
-import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import { Toaster } from "sonner";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import "@/App.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import useServerData from "@/hooks/useServerData";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+import Home from "@/pages/Home";
+import HowToPlayPage from "@/pages/HowToPlayPage";
+import ModsPage from "@/pages/ModsPage";
+import GalleryPage from "@/pages/GalleryPage";
+import ServerInfoPage from "@/pages/ServerInfoPage";
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+function Shell() {
+  const { info, status } = useServerData();
+  const discordUrl = info?.discord_invite_url || "https://discord.gg/pFj6mZubVu";
+  const managementUrl =
+    info?.management_panel_url || "https://management_panel.mcboost.online/";
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
+    <>
+      <Navbar managementUrl={managementUrl} discordUrl={discordUrl} />
+      <main className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<Home info={info} status={status} />} />
+          <Route
+            path="/how-to-play"
+            element={<HowToPlayPage info={info} />}
+          />
+          <Route path="/mods" element={<ModsPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route
+            path="/server-info"
+            element={<ServerInfoPage info={info} status={status} />}
+          />
+        </Routes>
+      </main>
+      <Footer info={info} />
+    </>
   );
-};
+}
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
+        <Shell />
+        <Toaster
+          theme="dark"
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: "#111113",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "#fff",
+              fontFamily: "'IBM Plex Sans', sans-serif",
+              borderRadius: "2px",
+            },
+          }}
+        />
       </BrowserRouter>
     </div>
   );
 }
-
-export default App;
